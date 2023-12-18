@@ -1,0 +1,61 @@
+{
+  "name": "pumper",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/pumper/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/pumper",
+        "main": "apps/pumper/src/main.ts",
+        "tsConfig": "apps/pumper/tsconfig.app.json",
+        "assets": [
+          "apps/pumper/src/assets"
+        ],
+        "webpackConfig": "apps/pumper/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "pumper:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "pumper:build:development"
+        },
+        "production": {
+          "buildTarget": "pumper:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": [
+        "{options.outputFile}"
+      ]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/pumper/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
